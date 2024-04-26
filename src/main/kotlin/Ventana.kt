@@ -1,26 +1,28 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
-import java.io.File
-import javax.swing.text.AbstractDocument.Content
+
 
 @Composable
 fun Ventana(onClose: () -> Unit){
+
+   // val path = "src/main/kotlin/estudiantes.txt"
+   // val archivo = File(path)
+   // var eliminar by remember { mutableStateOf(false) }
+
+
+
     Window(
         onCloseRequest = onClose,
         title = "My Student"
@@ -34,8 +36,7 @@ fun Ventana(onClose: () -> Unit){
 fun Content(){
     var name by remember { mutableStateOf("") }
     val students = remember { mutableStateListOf<String>() }
-    val path = "src/main/kotlin/estudiantes.txt"
-    val archivo = File(path)
+    var eliminar by remember { mutableStateOf(false) }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.LightGray
@@ -59,7 +60,7 @@ fun Content(){
                         label = { Text("Nuevo estudiante") }
                     )
                     Button(
-                        onClick = { students.add(name) }
+                        onClick = { students.add(name); name = "" }
                     ){
                         Text("Añadir estudiante")
                     }
@@ -69,12 +70,25 @@ fun Content(){
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text("Students: ${students.size}")
-                    Box{
-                        LazyColumn(
-                            modifier = Modifier
-                                .border(2.dp, color = Color.Black)
-                                .size(150.dp, 250.dp)
-                        ) {
+                    Box(
+                        modifier = Modifier
+                            .border(2.dp, color = Color.Black)
+                            .size(150.dp, 250.dp)
+                    ){
+                        LazyColumn{
+                            items(students){student ->
+                                Text(student)
+                                IconToggleButton(
+                                    checked = eliminar,
+                                    onCheckedChange = {eliminar = it}
+                                ){
+                                    Icon(
+                                        imageVector =Icons.Default.Delete ,
+                                        contentDescription = "Eliminar"
+                                    )
+                                }
+                            }
+
 
                         }
                     }
@@ -91,4 +105,3 @@ fun Content(){
         }
     }
 }
-
