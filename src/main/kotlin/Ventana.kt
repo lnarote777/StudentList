@@ -42,7 +42,6 @@ fun Ventana(onClose: () -> Unit){
 fun Content(archivo: File) {
     var name by remember { mutableStateOf("") }
     val students = remember { mutableStateListOf<String>() }
-    var eliminar by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
 
 
@@ -62,7 +61,7 @@ fun Content(archivo: File) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                AgregarEstudiante(name, { name = it }, students, { students.add(name); name = ""  })
+                AgregarEstudiante(name, { name = it }, { students.add(name); name = ""  })
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -73,33 +72,24 @@ fun Content(archivo: File) {
                         fontSize = 15.sp
                     )
 
-                    Box(
+                    LazyColumn(
                         modifier = Modifier
-                            .border(2.dp, color = Color.Black)
-                            .size(150.dp, 250.dp)
-                    ) {
+                            .border(2.dp, Color.Black)
+                            .size(150.dp, 250.dp),
 
-                        LazyColumn{
-
-                            items(students) { student ->
-                                Text(
-                                    text = student,
-                                    modifier = Modifier.padding(start = 5.dp)
-                                )
-
-                                IconToggleButton(
-                                    checked = eliminar,
-                                    onCheckedChange = { eliminar = it; students.remove(student) }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Delete,
-                                        contentDescription = "Eliminar"
-                                    )
-                                }
-                            }
-
+                    ){
+                        items(students) { student ->
+                            ListaEstudiantes(student, students)
                         }
+
                     }
+
+                    Button(
+                        onClick = { students.clear() }
+                    ){
+                        Text("Eliminar Todo")
+                    }
+
 
                 }
             }
@@ -111,7 +101,7 @@ fun Content(archivo: File) {
 
 
 @Composable
-fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, students: MutableList<String>, onClick: () -> Unit){
+fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, onClick: () -> Unit){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -139,8 +129,29 @@ fun GuardarCambios(click: () -> Unit){
 }
 
 @Composable
-fun ColumnaEstudiantes(delete: Boolean, onDelete: () -> Unit){
+fun ListaEstudiantes(student: String, students: MutableList<String>){
+    var eliminar by remember { mutableStateOf(false) }
 
+    Row (
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Text(
+            text = student,
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .weight(1f)
+        )
+
+        IconToggleButton(
+            checked = eliminar,
+            onCheckedChange = { eliminar = it; students.remove(student) }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Eliminar"
+            )
+        }
+    }
 }
 
 @Composable
