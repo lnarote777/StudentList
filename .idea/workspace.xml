@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2469e274-0629-4034-b867-ad98e121097c" name="Changes" comment="diseño sin funcionalidad">
+    <list default="true" id="2469e274-0629-4034-b867-ad98e121097c" name="Changes" comment="funciona a medias, falta guardardar en el fichero">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/info_icon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Ventana.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Ventana.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/estudiantes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/estudiantes.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,16 +39,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Preview: VentanaKt.Content.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.desktop.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Preview: VentanaKt.Content.executor": "Run",
+    "Gradle.desktop.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\larad\Documents\1DAM\Programacion\StudentList\src\main\resources" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -72,11 +81,20 @@
       <option name="project" value="LOCAL" />
       <updated>1714147051547</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="funciona a medias, falta guardardar en el fichero">
+      <option name="closed" value="true" />
+      <created>1714164266502</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714164266502</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="diseño sin funcionalidad" />
-    <option name="LAST_COMMIT_MESSAGE" value="diseño sin funcionalidad" />
+    <MESSAGE value="funciona a medias, falta guardardar en el fichero" />
+    <option name="LAST_COMMIT_MESSAGE" value="funciona a medias, falta guardardar en el fichero" />
   </component>
 </project>
