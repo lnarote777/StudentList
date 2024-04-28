@@ -1,11 +1,14 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.border
+import androidx.compose.foundation.checkScrollableContainerConstraints
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,6 +18,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -27,25 +31,22 @@ import java.io.File
 fun Ventana(onClose: () -> Unit){
     val path = "src/main/kotlin/estudiantes.txt"
     val archivo = File(path)
-   // var eliminar by remember { mutableStateOf(false) }
+    val students = remember { mutableStateListOf<String>() }
 
     Window(
         onCloseRequest = onClose,
         title = "My Student"
     ){
-        Content(archivo)
+        LeerArchivo(archivo, students )
+        Content(archivo, students)
     }
 }
 
 @Composable
 @Preview
-fun Content(archivo: File) {
+fun Content(archivo: File, students: MutableList<String>) {
     var name by remember { mutableStateOf("") }
-    val students = remember { mutableStateListOf<String>() }
-    val focusRequester = remember { FocusRequester() }
 
-
-    archivo.forEachLine { students.add(it) } //Añade los nombres del archivo a la lista para empezar visualizandolos
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -75,7 +76,7 @@ fun Content(archivo: File) {
                     LazyColumn(
                         modifier = Modifier
                             .border(2.dp, Color.Black)
-                            .size(150.dp, 250.dp),
+                            .size(150.dp, 250.dp)
 
                     ){
                         items(students) { student ->
@@ -99,6 +100,12 @@ fun Content(archivo: File) {
     }
 }
 
+@Composable
+fun LeerArchivo(archivo: File, students: MutableList<String>){
+    if (archivo.exists()){
+        archivo.forEachLine { students.add(it) }
+    }
+}
 
 @Composable
 fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, onClick: () -> Unit){
@@ -121,11 +128,16 @@ fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, onClick: () -
 
 @Composable
 fun GuardarCambios(click: () -> Unit){
+    var show by remember { mutableStateOf(false) }
     Button(
-        onClick = click
+        onClick = { click(); show = true  }
     ) {
         Text("Guardar cambios")
     }
+    if (show){
+        Toast("Cambios Guardados") { show = false }
+    }
+
 }
 
 @Composable
@@ -174,4 +186,5 @@ fun Toast(message: String, onDismiss: () -> Unit) {
         delay(2000)
         onDismiss()
     }
+
 }
