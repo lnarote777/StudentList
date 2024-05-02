@@ -1,5 +1,6 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.TooltipArea
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.checkScrollableContainerConstraints
 import androidx.compose.foundation.gestures.Orientation
@@ -37,7 +38,7 @@ fun Ventana(onClose: () -> Unit){
         onCloseRequest = onClose,
         title = "My Student"
     ){
-        LeerArchivo(archivo, students )
+        LeerArchivo(archivo, students, path )
         Content(archivo, students)
     }
 }
@@ -46,7 +47,7 @@ fun Ventana(onClose: () -> Unit){
 @Preview
 fun Content(archivo: File, students: MutableList<String>) {
     var name by remember { mutableStateOf("") }
-
+    val focusRequester = remember { FocusRequester() }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -62,7 +63,7 @@ fun Content(archivo: File, students: MutableList<String>) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                AgregarEstudiante(name, { name = it }, { students.add(name); name = ""  })
+                AgregarEstudiante(name, { name = it }, { students.add(name); name = "" ; focusRequester.requestFocus() }, focusRequester)
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -77,7 +78,7 @@ fun Content(archivo: File, students: MutableList<String>) {
                         modifier = Modifier
                             .border(2.dp, Color.Black)
                             .size(150.dp, 250.dp)
-
+                            .background(Color.White)
                     ){
                         items(students) { student ->
                             ListaEstudiantes(student, students)
@@ -85,12 +86,7 @@ fun Content(archivo: File, students: MutableList<String>) {
 
                     }
 
-                    Button(
-                        onClick = { students.clear() }
-                    ){
-                        Text("Eliminar Todo")
-                    }
-
+                    ELiminarTodo(students)
 
                 }
             }
@@ -101,14 +97,14 @@ fun Content(archivo: File, students: MutableList<String>) {
 }
 
 @Composable
-fun LeerArchivo(archivo: File, students: MutableList<String>){
+fun LeerArchivo(archivo: File, students: MutableList<String>, ruta: String){
     if (archivo.exists()){
         archivo.forEachLine { students.add(it) }
     }
 }
 
 @Composable
-fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, onClick: () -> Unit){
+fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, onClick: () -> Unit, focusRequester: FocusRequester){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -116,7 +112,9 @@ fun AgregarEstudiante(name: String, onValueChange: (String)->Unit, onClick: () -
         OutlinedTextField(
             value = name,
             onValueChange = onValueChange,
-            label = { Text("Nuevo estudiante") }
+            label = { Text("Nuevo estudiante") },
+            modifier = Modifier
+                .focusRequester(focusRequester)
         )
         Button(
             onClick = onClick
@@ -150,7 +148,7 @@ fun ListaEstudiantes(student: String, students: MutableList<String>){
         Text(
             text = student,
             modifier = Modifier
-                .padding(start = 5.dp)
+                .padding(start = 10.dp)
                 .weight(1f)
         )
 
@@ -187,4 +185,14 @@ fun Toast(message: String, onDismiss: () -> Unit) {
         onDismiss()
     }
 
+}
+
+
+@Composable
+fun ELiminarTodo(students: MutableList<String>){
+    Button(
+        onClick = { students.clear() }
+    ){
+        Text("Eliminar Todo")
+    }
 }
