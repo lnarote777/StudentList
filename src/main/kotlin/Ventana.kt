@@ -38,7 +38,7 @@ fun Ventana(onClose: () -> Unit){
         onCloseRequest = onClose,
         title = "My Student"
     ){
-        LeerArchivo(archivo, students, path )
+        LeerArchivo(archivo, students )
         Content(archivo, students)
     }
 }
@@ -97,9 +97,11 @@ fun Content(archivo: File, students: MutableList<String>) {
 }
 
 @Composable
-fun LeerArchivo(archivo: File, students: MutableList<String>, ruta: String){
+fun LeerArchivo(archivo: File, students: MutableList<String>){
     if (archivo.exists()){
         archivo.forEachLine { students.add(it) }
+    }else{
+        archivo.createNewFile()
     }
 }
 
